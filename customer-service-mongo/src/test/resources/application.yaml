@@ -1,0 +1,16 @@
+#spring:
+#  data:
+#    mongodb:
+#      uri: mongodb://localhost/test
+#      port: 27017
+#  datasource:
+#    driver-class-name:
+
+logging.level:
+  org.springframework.boot.autoconfigure.mongo.embedded: debug
+  level.org.mongodb: debug
+#spring:
+#  data.mongodb.port: 27019
+#  mongodb:
+#    embedded:
+#      version: 4.10.1
