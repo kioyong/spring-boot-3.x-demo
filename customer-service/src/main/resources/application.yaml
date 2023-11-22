@@ -1,0 +1,14 @@
+server:
+  port: 9091
+
+spring:
+  datasource:
+    url: 'jdbc:sqlserver://localhost;databaseName=db_test;encrypt=true;trustServerCertificate=true'
+    username: 'updateThis'
+    password: 'updateThis'
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    open-in-view: false
+    show-sql: false
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    generate-ddl: false
