@@ -12,23 +12,23 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final CustomerRepository repository;
+    private final CustomerService service;
 
     @GetMapping("/{id}")
     Mono<Customer> findById(@PathVariable String id) {
         log.info("start find customer by id : {} ", id);
-        return repository.findById(id);
+        return service.findById(id);
     }
 
     @GetMapping()
     Flux<Customer> customers() {
         log.info("start find all customer");
-        return repository.findAll();
+        return service.findAll();
     }
 
     @PostMapping
     Mono<Customer> save(@RequestBody Customer customer) {
         log.info("start save customer");
-        return repository.save(customer);
+        return service.save(customer);
     }
 }
