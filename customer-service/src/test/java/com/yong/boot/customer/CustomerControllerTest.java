@@ -1,6 +1,5 @@
-package com.yong.boot.controller;
+package com.yong.boot.customer;
 
-import com.yong.boot.entity.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

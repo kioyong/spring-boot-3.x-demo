@@ -1,16 +1,17 @@
-package com.yong.boot.controller;
+package com.yong.boot.customer;
 
 import brave.baggage.BaggageField;
 import brave.propagation.CurrentTraceContext;
 import brave.propagation.TraceContext;
-import com.yong.boot.entity.Customer;
 import io.micrometer.observation.annotation.Observed;
 import io.micrometer.tracing.annotation.SpanTag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Log4j2
@@ -29,10 +30,10 @@ public class CustomerService {
     }
 
 
-    public List<Customer> findByName(@SpanTag("contextIdBBB") String name) {
+    public List<Customer> findByNameOther(@SpanTag("contextIdBBB") String name) {
         log.info("start find by name service {}", name);
         TraceContext traceContext = context.get();
-        return repository.findByName(name);
+        return List.of(repository.findByName(name));
     }
 
     public Customer save(Customer customer) {
@@ -40,7 +41,12 @@ public class CustomerService {
         return repository.save(customer);
     }
 
-    @Observed(name = "xxx",contextualName = "ddd",lowCardinalityKeyValues = {"abc","def"})
+    @Async
+    public CompletableFuture<Customer> findByName(String name) {
+        return CompletableFuture.completedFuture(repository.findByName(name));
+    }
+
+    @Observed(name = "xxx", contextualName = "ddd", lowCardinalityKeyValues = {"abc", "def"})
     public void testAsync() {
         log.info("stact async");
     }

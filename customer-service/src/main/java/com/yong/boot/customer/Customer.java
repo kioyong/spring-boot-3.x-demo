@@ -1,4 +1,4 @@
-package com.yong.boot.entity;
+package com.yong.boot.customer;
 
 import jakarta.persistence.*;
 import lombok.Data;
