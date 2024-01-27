@@ -23,17 +23,16 @@ public class CustomerService {
     private final CurrentTraceContext context;
 
     public List<Customer> findAll() {
-        BaggageField.getByName("contextId").updateValue("after");
-        BaggageField.getByName("businessKeys").updateValue("{\"userId\":\"123\"}");
+        BaggageField.create("contextId").updateValue("after");
+        BaggageField.create("businessKeys").updateValue("{\"userId\":\"456\"}");
         log.info("start findAll");
         return repository.findAll();
     }
 
 
-    public List<Customer> findByNameOther(@SpanTag("contextIdBBB") String name) {
+    public List<Customer> findByNameOther( String name) {
         log.info("start find by name service {}", name);
-        TraceContext traceContext = context.get();
-        return List.of(repository.findByName(name));
+        return repository.findByName(name);
     }
 
     public Customer save(Customer customer) {
@@ -42,7 +41,7 @@ public class CustomerService {
     }
 
     @Async
-    public CompletableFuture<Customer> findByName(String name) {
+    public CompletableFuture<List<Customer>> findByName(String name) {
         return CompletableFuture.completedFuture(repository.findByName(name));
     }
 
