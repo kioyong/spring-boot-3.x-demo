@@ -10,7 +10,7 @@ spring:
     open-in-view: false
   jpa:
     show-sql: false
-#    database-platform: org.hibernate.dialect.SQLServerDialect
+    #    database-platform: org.hibernate.dialect.SQLServerDialect
     generate-ddl: false
     open-in-view: false
   application:
@@ -22,13 +22,23 @@ management:
     baggage:
       correlation:
         enabled: true
-        fields: myTraceId,contextId,businessKeys
-      remote-fields: myTraceId,contextId,businessKeys
-  observations:
-    key-values:
-      applicationId: xxx
+        fields: trace_id,caller_context_id,context_id,biz_func,message_type,biz_keys,marker
+      remote-fields: x-user-id,Authorization,x-AIAHK-Trace-ID,x-AIAHK-Context-ID,x-aia-lbu,x-aia-env,X-Gateway-APIKey,x-forwarded-for
+  #  observations:
+  #    key-values:
+  #      app_id: xxx
+  endpoints:
+    enabled-by-default: false
+
+custom:
+  baggage:
+    correlation-fields: ${management.tracing.baggage.correlation.fields}
+    remote-fields: ${management.tracing.baggage.remote-fields}}
+    correlation-fields-alias:
+      x-AIAHK-Trace-ID: trace_id
+      x-AIAHK-Context-ID: caller_context_id
+
 
 logging:
   pattern:
-    correlation: '[${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
-    console: "[%d{yyyy-MM-dd'T'HH:mm:ss.SSS}]%clr([${LOG_LEVEL_PATTERN:%0.5p}])[%0.50logger{39}][%clr(%0.-10X{myTraceId})][%0.-10X{contextId}][%0.-50X{callerContextId}][%0.-20X{applicationId}][%0.-30X{businessFunction}][%0.-20X{messageType}][%0.-10X{applicationVersion}][%0.-20t][%0.-250X{businessKeys}] %clr(%0.-250m%n)"
+    console: "[%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ}]%clr([${LOG_LEVEL_PATTERN:%0.5p}])[%0.50logger{39}][%clr(%0.-10X{trace_id})][%0.-10X{context_id}][%0.-50X{caller_context_id}][%0.-20X{app_id}][%0.-30X{biz_func}][%marker][%0.-10X{app_version}][%0.-20t][%0.-250X{biz_keys}] %clr(%0.-250m%n)"

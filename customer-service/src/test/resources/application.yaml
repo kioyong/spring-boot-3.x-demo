@@ -19,7 +19,23 @@ spring:
   sql:
     init:
       mode: embedded
+  test:
+    observability:
+      auto-configure: true
 logging:
   pattern:
     correlation: '[${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
     console: "[%d{yyyy-MM-dd'T'HH:mm:ss.SSS}]%clr([${LOG_LEVEL_PATTERN:%0.5p}])[%0.50logger{39}][%clr(%0.-50X{myTraceId})][%0.-50X{contextId}][%0.-50X{callerContextId}][%0.-20X{applicationId}][%0.-30X{businessFunction}][%0.-20X{messageType}][%0.-10X{applicationVersion}][%0.-20t][%0.-250X{businessKeys}] %clr(%0.-250m%n)"
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    baggage:
+      correlation:
+        enabled: true
+        fields: myTraceId,contextId,businessKeys
+      remote-fields: myTraceId,contextId,businessKeys
+  observations:
+    key-values:
+      applicationId: xxx

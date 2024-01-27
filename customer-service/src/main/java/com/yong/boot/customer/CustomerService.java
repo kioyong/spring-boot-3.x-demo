@@ -2,9 +2,7 @@ package com.yong.boot.customer;
 
 import brave.baggage.BaggageField;
 import brave.propagation.CurrentTraceContext;
-import brave.propagation.TraceContext;
 import io.micrometer.observation.annotation.Observed;
-import io.micrometer.tracing.annotation.SpanTag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Async;
@@ -12,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import static com.yong.boot.util.LogUtils.application;
 
 @Service
 @Log4j2
@@ -23,20 +23,19 @@ public class CustomerService {
     private final CurrentTraceContext context;
 
     public List<Customer> findAll() {
-        BaggageField.create("contextId").updateValue("after");
-        BaggageField.create("businessKeys").updateValue("{\"userId\":\"456\"}");
-        log.info("start findAll");
+        BaggageField.create("biz_keys").updateValue("{\"userId\":\"456\"}");
+        log.info(application, "start findAll");
         return repository.findAll();
     }
 
 
-    public List<Customer> findByNameOther( String name) {
-        log.info("start find by name service {}", name);
+    public List<Customer> findByNameOther(String name) {
+        log.info(application, "start find by name service {}", name);
         return repository.findByName(name);
     }
 
     public Customer save(Customer customer) {
-        log.info("start call save repository");
+        log.info(application, "start call save repository");
         return repository.save(customer);
     }
 
@@ -47,6 +46,6 @@ public class CustomerService {
 
     @Observed(name = "xxx", contextualName = "ddd", lowCardinalityKeyValues = {"abc", "def"})
     public void testAsync() {
-        log.info("stact async");
+        log.info(application, "stact async");
     }
 }
