@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,9 +29,7 @@ class CustomerControllerTest {
 
     @Test
     void customers() throws Exception {
-        mvc.perform(get("/customers")
-                        .header("myTraceId", "testId")
-                        .header("contextId", "contextId"))
+        mvc.perform(setDefaultHeader(get("/customers")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray());
@@ -46,14 +45,21 @@ class CustomerControllerTest {
         repo.save(customer);
         assertEquals(1, repo.count());
 
-        mvc.perform(get("/customers/Jack"))
+        mvc.perform(setDefaultHeader(get("/customers/Jack")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(0));
 
-        mvc.perform(get("/customers/" + name))
+        mvc.perform(setDefaultHeader(get("/customers/" + name)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1));
+    }
+
+    MockHttpServletRequestBuilder setDefaultHeader(MockHttpServletRequestBuilder builder) {
+        return builder.header("x-AIAHK-Trace-ID", "traceId")
+                .header("x-AIAHK-Context-ID", "contextId")
+                .header("x-user-id", "userId")
+                .header("x-forwarded-for", "localhost");
     }
 }
