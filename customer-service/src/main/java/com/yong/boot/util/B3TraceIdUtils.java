@@ -19,11 +19,6 @@ public class B3TraceIdUtils {
         return toB3TraceIdString(Platform.get().nextTraceIdHigh(), traceId);
     }
 
-
-    public static String generateRandomString(int length) {
-        return b3TraceIdString().substring(0, length);
-    }
-
     public static String toB3TraceIdString(long traceIdHigh, long traceId) {
         char[] result = RecyclableBuffers.parseBuffer();
         writeHexLong(result, 0, traceIdHigh);

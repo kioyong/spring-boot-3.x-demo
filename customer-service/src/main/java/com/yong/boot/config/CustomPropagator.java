@@ -140,7 +140,7 @@ public class CustomPropagator extends Propagation.Factory implements Propagation
             try {
                 String valueStr = new ObjectMapper().writeValueAsString(businessKeys);
                 ExtraBaggageContext.get().updateValue(BaggageField
-                        .create("biz_keys"), traceContext, valueStr);
+                        .create(BIZ_KEYS), traceContext, valueStr);
             } catch (JsonProcessingException e) {
                 log.error(application, "fail to set businessKeys {}", e.getMessage());
             }

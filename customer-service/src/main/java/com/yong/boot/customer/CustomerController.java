@@ -38,8 +38,9 @@ public class CustomerController {
     @GetMapping("/customers/{name}")
     List<Customer> findByName(@PathVariable String name) {
         BaggageField.create(BIZ_FUNC).updateValue("findCustomersByName");
+        updateBusinessKey("customerName",name);
         log.info(application, "start find by name controller");
-        return service.findByNameOther(name);
+        return service.findByName(name);
     }
 
 
@@ -58,9 +59,9 @@ public class CustomerController {
         if (Objects.nonNull(servletRequestAttributes)) {
             RequestContextHolder.setRequestAttributes(servletRequestAttributes, true);
         }
-        CompletableFuture<List<Customer>> task1 = service.findByName("liangyong");
-        CompletableFuture<List<Customer>> task2 = service.findByName("liangyongs");
-        CompletableFuture<List<Customer>> task3 = service.findByName("liangyonxx");
+        CompletableFuture<List<Customer>> task1 = service.findByNameAsync("liangyong");
+        CompletableFuture<List<Customer>> task2 = service.findByNameAsync("liangyongs");
+        CompletableFuture<List<Customer>> task3 = service.findByNameAsync("liangyonxx");
         CompletableFuture.allOf(task1, task2, task3)
                 .join();
 

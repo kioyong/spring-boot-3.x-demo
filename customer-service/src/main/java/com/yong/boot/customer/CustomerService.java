@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static com.yong.boot.constant.BusinessConstant.BIZ_KEYS;
 import static com.yong.boot.util.LogUtils.application;
 
 @Service
@@ -22,13 +23,13 @@ public class CustomerService {
     private final CurrentTraceContext context;
 
     public List<Customer> findAll() {
-        BaggageField.create("biz_keys").updateValue("{\"userId\":\"456\"}");
+        BaggageField.create(BIZ_KEYS).updateValue("{\"userId\":\"456\"}");
         log.info(application, "start findAll");
         return repository.findAll();
     }
 
 
-    public List<Customer> findByNameOther(String name) {
+    public List<Customer> findByName(String name) {
         log.info(application, "start find by name service {}", name);
         return repository.findByName(name);
     }
@@ -39,7 +40,7 @@ public class CustomerService {
     }
 
     @Async("threadPoolTaskExecutor")
-    public CompletableFuture<List<Customer>> findByName(String name) {
+    public CompletableFuture<List<Customer>> findByNameAsync(String name) {
         log.info(application,"start find by Name Async");
         return CompletableFuture.completedFuture(repository.findByName(name));
     }
