@@ -20,6 +20,7 @@ public class BusinessConstant {
 
     public static final String BIZ_FUNC = "biz_func";
     public static final String BIZ_KEYS = "biz_keys";
+    public static final String SEQNO = "seqNo";
 
 
 }

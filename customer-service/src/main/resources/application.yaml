@@ -30,7 +30,7 @@ management:
 custom:
   baggage:
     correlation-fields: ${management.tracing.baggage.correlation.fields}
-    remote-fields: ${management.tracing.baggage.remote-fields}}
+    remote-fields: ${management.tracing.baggage.remote-fields}
     correlation-fields-alias:
       x-AIAHK-Trace-ID: trace_id
       x-AIAHK-Context-ID: caller_context_id
@@ -39,3 +39,8 @@ custom:
 logging:
   pattern:
     console: "[%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ}]%clr([${LOG_LEVEL_PATTERN:%0.5p}])[%0.50logger{39}][%clr(%0.-10X{trace_id})][%0.-10X{context_id}][%0.-50X{caller_context_id}][%0.-20X{app_id}][%0.-30X{biz_func}][%marker][%0.-10X{app_version}][%0.-20t][%0.-250X{biz_keys}] %clr(%0.-250m%n)"
+
+
+customer:
+  greeting:
+    url: http://localhost:9091
