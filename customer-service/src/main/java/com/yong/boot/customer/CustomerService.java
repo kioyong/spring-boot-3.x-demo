@@ -2,7 +2,6 @@ package com.yong.boot.customer;
 
 import brave.baggage.BaggageField;
 import brave.propagation.CurrentTraceContext;
-import io.micrometer.observation.annotation.Observed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Async;
@@ -39,13 +38,11 @@ public class CustomerService {
         return repository.save(customer);
     }
 
-    @Async
+    @Async("threadPoolTaskExecutor")
     public CompletableFuture<List<Customer>> findByName(String name) {
+        log.info(application,"start find by Name Async");
         return CompletableFuture.completedFuture(repository.findByName(name));
     }
 
-    @Observed(name = "xxx", contextualName = "ddd", lowCardinalityKeyValues = {"abc", "def"})
-    public void testAsync() {
-        log.info(application, "stact async");
-    }
+
 }

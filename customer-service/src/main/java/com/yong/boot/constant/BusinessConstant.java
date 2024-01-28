@@ -18,4 +18,6 @@ public class BusinessConstant {
     public static final String APPLICATION_VERSION = "app_version";
     public static final String APPLICATION_ID = "app_id";
 
+    public static final String BIZ_FUNC = "biz_func";
+
 }

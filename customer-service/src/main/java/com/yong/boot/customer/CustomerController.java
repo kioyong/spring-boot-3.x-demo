@@ -6,11 +6,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static com.yong.boot.constant.BusinessConstant.BIZ_FUNC;
 import static com.yong.boot.util.LogUtils.*;
 
 @Log4j2
@@ -23,18 +27,17 @@ public class CustomerController {
 
     @GetMapping("/customers")
     List<Customer> customers(HttpServletRequest request) {
-        BaggageField.create("biz_func").updateValue("findAllCustomers");
-        String myTraceId = request.getHeader("myTraceId");
-
-        log.info(securityAudit, "start get customers1 {}", myTraceId);
-        log.info(application, "start get customers2 {}", myTraceId);
-        log.info(integration, "start get customers3 {}", myTraceId);
+        BaggageField.create(BIZ_FUNC).updateValue("findAllCustomers");
+        String traceId = BaggageField.getByName("trace_id").getValue();
+        log.info(securityAudit, "start get customers1 {}", traceId);
+        log.info(application, "start get customers2 {}", traceId);
+        log.info(integration, "start get customers3 {}", traceId);
         return service.findAll();
     }
 
     @GetMapping("/customers/{name}")
     List<Customer> findByName(@PathVariable String name) {
-        BaggageField.create("biz_func").updateValue("findCustomersByName");
+        BaggageField.create(BIZ_FUNC).updateValue("findCustomersByName");
         log.info(application, "start find by name controller");
         return service.findByNameOther(name);
     }
@@ -49,10 +52,15 @@ public class CustomerController {
 
     @GetMapping("/testAsync")
     List<Customer> test() throws ExecutionException, InterruptedException {
+        BaggageField.create(BIZ_FUNC).updateValue("testAsync");
         log.info(application, "start aaa");
-        CompletableFuture<List<Customer>> task1 = service.findByName("a");
-        CompletableFuture<List<Customer>> task2 = service.findByName("b");
-        CompletableFuture<List<Customer>> task3 = service.findByName("c");
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (Objects.nonNull(servletRequestAttributes)) {
+            RequestContextHolder.setRequestAttributes(servletRequestAttributes, true);
+        }
+        CompletableFuture<List<Customer>> task1 = service.findByName("liangyong");
+        CompletableFuture<List<Customer>> task2 = service.findByName("liangyongs");
+        CompletableFuture<List<Customer>> task3 = service.findByName("liangyonxx");
         CompletableFuture.allOf(task1, task2, task3)
                 .join();
 

@@ -74,7 +74,6 @@ public class CustomPropagator extends Propagation.Factory implements Propagation
                     .spanId(HexCodec.lowerHexToUnsignedLong(toLowerHex(B3TraceIdUtils.nextId())))
                     .build();
 
-
             // extractor from config
             properties.getRemoteFields().forEach(key -> {
                 key = key.toLowerCase();
@@ -115,10 +114,6 @@ public class CustomPropagator extends Propagation.Factory implements Propagation
                 ExtraBaggageContext.get().updateValue(BaggageField
                         .create(X_AIAHK_TRACE_ID.toLowerCase()), traceContext, traceId);
             }
-
-            //set default
-            ExtraBaggageContext.get().updateValue(BaggageField
-                    .create("marker"), traceContext, MESSAGE_TYPE_APPLICATION);
 
             //set business keys
             setBusinessKeys(getter, request, traceContext);
