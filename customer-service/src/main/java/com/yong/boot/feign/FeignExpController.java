@@ -17,9 +17,9 @@ public class FeignExpController {
 
     @GetMapping()
     public Greeting greeting() {
-        LogUtils.info(log, "start call greeting in exp");
+        LogUtils.info(log, "start call greeting in exp test");
         Greeting greeting = client.greeting();
-        LogUtils.info(log, "end call greeting in exp");
+        LogUtils.info(log, "end call greeting in exp test");
         return greeting;
     }
 
