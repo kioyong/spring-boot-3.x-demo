@@ -4,8 +4,8 @@ spring:
   datasource:
     url: 'jdbc:h2:mem:testdb;MODE=MSSQLServer'
     driverClassName: 'org.h2.Driver'
-    username: sa
-    password: password
+#    username: sa
+#    password: password
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -46,3 +46,8 @@ management:
         enabled: true
         fields: trace_id,caller_context_id,context_id,biz_func,message_type,biz_keys,marker
       remote-fields: x-user-id,Authorization,x-AIAHK-Trace-ID,x-AIAHK-Context-ID,x-aia-lbu,x-aia-env,X-Gateway-APIKey,x-forwarded-for
+
+
+customer:
+  greeting:
+    url: http://localhost:9091
