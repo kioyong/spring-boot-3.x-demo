@@ -65,7 +65,7 @@ public class CustomerController {
         List<Customer> customer2 = task3.get();
         customer.addAll(customer1);
         customer.addAll(customer2);
-        LogUtils.info(log, "end v");
+        LogUtils.info(log, "end c");
         return customer;
     }
 
