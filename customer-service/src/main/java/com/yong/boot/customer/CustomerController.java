@@ -53,10 +53,10 @@ public class CustomerController {
 
     @GetMapping("/testAsync")
     List<Customer> testAsync() throws ExecutionException, InterruptedException {
-        LogUtils.info(log, "start a");
-        CompletableFuture<List<Customer>> task1 = service.findByNameAsync("aaa");
-        CompletableFuture<List<Customer>> task2 = service.findByNameAsync("bbb");
-        CompletableFuture<List<Customer>> task3 = service.findByNameAsync("ccc");
+        LogUtils.info(log, "start aaa");
+        CompletableFuture<List<Customer>> task1 = service.findByNameAsync("task1");
+        CompletableFuture<List<Customer>> task2 = service.findByNameAsync("task2");
+        CompletableFuture<List<Customer>> task3 = service.findByNameAsync("task3");
         CompletableFuture.allOf(task1, task2, task3)
                 .join();
 
@@ -65,7 +65,7 @@ public class CustomerController {
         List<Customer> customer2 = task3.get();
         customer.addAll(customer1);
         customer.addAll(customer2);
-        LogUtils.info(log, "end a");
+        LogUtils.info(log, "end v");
         return customer;
     }
 
