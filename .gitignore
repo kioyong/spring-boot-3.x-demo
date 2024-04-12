@@ -30,3 +30,8 @@ customer-service/src/main/resources/application-local.yaml
 */target/
 
 .idea
+
+*/.gradle
+
+*.iml
+/customer-service-mongo/.gradle/
