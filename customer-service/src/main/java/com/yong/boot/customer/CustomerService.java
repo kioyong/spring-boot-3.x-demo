@@ -56,4 +56,8 @@ public class CustomerService {
     }
 
 
+    public Customer findById(Integer id) {
+
+        return repository.findById(id).orElse(null);
+    }
 }

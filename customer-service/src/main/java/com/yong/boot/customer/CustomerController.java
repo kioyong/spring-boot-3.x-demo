@@ -69,5 +69,14 @@ public class CustomerController {
         return customer;
     }
 
+    @PutMapping("/customers")
+    public Customer updateCustomer(@RequestBody Customer customer){
+        if(customer.getId() == null) throw new RuntimeException("bad id");
+        Customer exist = service.findById(customer.getId());
+        if(exist == null) throw new RuntimeException("customer not found");
+        exist.setAge(customer.getAge());
+        exist.setName(customer.getName());
+        return service.save(exist);
+    }
 
 }

@@ -28,3 +28,5 @@ customer-service/src/main/resources/application-local.yaml
 
 */build/
 */target/
+
+.idea
