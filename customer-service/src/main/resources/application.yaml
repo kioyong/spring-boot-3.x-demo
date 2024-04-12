@@ -4,15 +4,17 @@ server:
 spring:
   datasource:
     url: 'jdbc:sqlserver://localhost;databaseName=db_test;encrypt=true;trustServerCertificate=true'
-    username: 'updateThis'
-    password: 'updateThis'
+    username: 'sa'
+    password: 'Qazwsx!23'
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     open-in-view: false
   jpa:
-    show-sql: false
+    show-sql: true
     #    database-platform: org.hibernate.dialect.SQLServerDialect
     generate-ddl: false
     open-in-view: false
+    hibernate:
+      ddl-auto: create
   application:
     name: customer-service
   jackson:
