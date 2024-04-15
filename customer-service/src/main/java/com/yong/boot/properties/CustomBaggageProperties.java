@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Component
 @ConfigurationProperties("custom.baggage")
-public class AIACustomBaggageProperties {
+public class CustomBaggageProperties {
 
     private Map<String, String> correlationFieldsAlias = new HashMap<>();
 

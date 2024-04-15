@@ -12,7 +12,7 @@ import brave.propagation.TraceContext;
 import brave.propagation.TraceContextOrSamplingFlags;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yong.boot.properties.AIACustomBaggageProperties;
+import com.yong.boot.properties.CustomBaggageProperties;
 import com.yong.boot.util.B3TraceIdUtils;
 import com.yong.boot.util.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ import static com.yong.boot.util.LogUtils.application;
 public class CustomPropagator extends Propagation.Factory implements Propagation<String> {
 
 
-    private final AIACustomBaggageProperties properties;
+    private final CustomBaggageProperties properties;
 
     @Value("${spring.application.name}")
     private String applicationId;
@@ -101,18 +101,18 @@ public class CustomPropagator extends Propagation.Factory implements Propagation
                     .create(MDC_CONTEXT_ID.toLowerCase()), traceContext, contextId);
             // pass current contextId to downstream
             ExtraBaggageContext.get().updateValue(BaggageField
-                    .create(X_AIAHK_CONTEXT_ID.toLowerCase()), traceContext, contextId);
+                    .create(X_HK_CONTEXT_ID.toLowerCase()), traceContext, contextId);
 
 
             //set default TraceId if empty
-            if (!org.springframework.util.StringUtils.hasText(getter.get(request, X_AIAHK_TRACE_ID.toLowerCase()))) {
+            if (!org.springframework.util.StringUtils.hasText(getter.get(request, X_HK_TRACE_ID.toLowerCase()))) {
                 String traceId = StringUtils.generateRandomString(10);
                 // set MDC contextId
                 ExtraBaggageContext.get().updateValue(BaggageField
                         .create(MDC_TRACE_ID), traceContext, traceId);
                 // pass current traceId to downstream
                 ExtraBaggageContext.get().updateValue(BaggageField
-                        .create(X_AIAHK_TRACE_ID.toLowerCase()), traceContext, traceId);
+                        .create(X_HK_TRACE_ID.toLowerCase()), traceContext, traceId);
             }
 
             //set business keys

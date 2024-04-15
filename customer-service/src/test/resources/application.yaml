@@ -33,8 +33,8 @@ custom:
     correlation-fields: ${management.tracing.baggage.correlation.fields}
     remote-fields: ${management.tracing.baggage.remote-fields}}
     correlation-fields-alias:
-      x-AIAHK-Trace-ID: trace_id
-      x-AIAHK-Context-ID: caller_context_id
+      x-HK-Trace-ID: trace_id
+      x-HK-Context-ID: caller_context_id
 
 
 management:
@@ -45,7 +45,7 @@ management:
       correlation:
         enabled: true
         fields: trace_id,caller_context_id,context_id,biz_func,message_type,biz_keys,marker
-      remote-fields: x-user-id,Authorization,x-AIAHK-Trace-ID,x-AIAHK-Context-ID,x-aia-lbu,x-aia-env,X-Gateway-APIKey,x-forwarded-for
+      remote-fields: x-user-id,Authorization,x-HK-Trace-ID,x-HK-Context-ID,x--lbu,x--env,X-Gateway-APIKey,x-forwarded-for
 
 
 customer:

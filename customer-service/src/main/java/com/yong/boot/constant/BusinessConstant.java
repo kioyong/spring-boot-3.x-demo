@@ -4,8 +4,8 @@ public class BusinessConstant {
     private BusinessConstant() {
     }
 
-    public static final String X_AIAHK_TRACE_ID = "x-AIAHK-Trace-ID";
-    public static final String X_AIAHK_CONTEXT_ID = "x-AIAHK-context-ID";
+    public static final String X_HK_TRACE_ID = "x-HK-Trace-ID";
+    public static final String X_HK_CONTEXT_ID = "x-HK-context-ID";
 
     public static final String MDC_CONTEXT_ID = "context_id";
 

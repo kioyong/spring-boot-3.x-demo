@@ -80,8 +80,8 @@ class CustomerControllerTest {
     }
 
     MockHttpServletRequestBuilder setDefaultHeader(MockHttpServletRequestBuilder builder) {
-        return builder.header("x-AIAHK-Trace-ID", "traceId")
-                .header("x-AIAHK-Context-ID", "contextId")
+        return builder.header("x-HK-Trace-ID", "traceId")
+                .header("x-HK-Context-ID", "contextId")
                 .header("x-user-id", "userId")
                 .header("x-forwarded-for", "localhost");
     }
