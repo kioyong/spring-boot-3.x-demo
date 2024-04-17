@@ -6,6 +6,7 @@ import com.yong.boot.util.LogUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -77,6 +78,14 @@ public class CustomerController {
         exist.setAge(customer.getAge());
         exist.setName(customer.getName());
         return service.save(exist);
+    }
+
+    @DeleteMapping("/customers")
+    public void deleteCustomer(@RequestBody Customer customer){
+        if(customer.getId()==null){
+            throw new RuntimeException("id can't be null!");
+        }
+        service.deleteCustomer(customer);
     }
 
 }

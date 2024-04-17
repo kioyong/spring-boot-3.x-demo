@@ -60,4 +60,8 @@ public class CustomerService {
 
         return repository.findById(id).orElse(null);
     }
+
+    public void deleteCustomer(Customer customer) {
+        repository.deleteById(customer.getId());
+    }
 }
