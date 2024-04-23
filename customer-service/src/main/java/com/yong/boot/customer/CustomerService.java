@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static com.yong.boot.constant.BusinessConstant.BIZ_KEYS;
-import static com.yong.boot.util.LogUtils.application;
 
 @Service
 @Log4j2
@@ -36,13 +34,13 @@ public class CustomerService {
     }
 
 
-    @Cacheable( key = "#name")
+    @Cacheable(key = "#name")
     public List<Customer> findByName(String name) {
         LogUtils.info(log, "start find by name service from DB {}", name);
         return repository.findByName(name);
     }
 
-//    @CachePut(key = "#customer.name")
+    //    @CachePut(key = "#customer.name")
     @CacheEvict(key = "#customer.name")
     public Customer save(Customer customer) {
         LogUtils.info(log, "start call save repository");
@@ -51,7 +49,7 @@ public class CustomerService {
 
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<List<Customer>> findByNameAsync(String name) {
-        LogUtils.info(log,"start find by Name Async");
+        LogUtils.info(log, "start find by Name Async");
         return CompletableFuture.completedFuture(repository.findByName(name));
     }
 
@@ -63,5 +61,10 @@ public class CustomerService {
 
     public void deleteCustomer(Customer customer) {
         repository.deleteById(customer.getId());
+    }
+
+
+    public List<Customer> findByAgeEquals(Integer age) {
+        return repository.findByAgeEquals(age);
     }
 }

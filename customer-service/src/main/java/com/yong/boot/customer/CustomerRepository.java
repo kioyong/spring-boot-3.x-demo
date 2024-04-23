@@ -7,4 +7,7 @@ import java.util.List;
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     List<Customer> findByName(String name);
+
+
+    List<Customer> findByAgeEquals(Integer age);
 }

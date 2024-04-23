@@ -1,23 +1,17 @@
 package com.yong.boot.customer;
 
 
-import brave.baggage.BaggageField;
 import com.yong.boot.util.LogUtils;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static com.yong.boot.constant.BusinessConstant.BIZ_FUNC;
-import static com.yong.boot.util.LogUtils.*;
+import static com.yong.boot.util.LogUtils.integration;
+import static com.yong.boot.util.LogUtils.securityAudit;
 
 @Log4j2
 @RestController
@@ -29,11 +23,14 @@ public class CustomerController {
 
 
     @GetMapping()
-    List<Customer> findAllCustomers() {
+    List<Customer> findAllCustomers(@RequestParam(name = "age", required = false) Integer age) {
 //        String traceId = BaggageField.getByName("trace_id").getValue();
         LogUtils.info(log, "start get customers1");
         LogUtils.info(log, securityAudit, "test security audit log");
         LogUtils.info(log, integration, "test integration log");
+        if(age != null){
+            return service.findByAgeEquals(age);
+        }
         return service.findAll();
     }
 
@@ -71,21 +68,22 @@ public class CustomerController {
     }
 
     @PutMapping("/customers")
-    public Customer updateCustomer(@RequestBody Customer customer){
-        if(customer.getId() == null) throw new RuntimeException("bad id");
+    public Customer updateCustomer(@RequestBody Customer customer) {
+        if (customer.getId() == null) throw new RuntimeException("bad id");
         Customer exist = service.findById(customer.getId());
-        if(exist == null) throw new RuntimeException("customer not found");
+        if (exist == null) throw new RuntimeException("customer not found");
         exist.setAge(customer.getAge());
         exist.setName(customer.getName());
         return service.save(exist);
     }
 
     @DeleteMapping("/customers")
-    public void deleteCustomer(@RequestBody Customer customer){
-        if(customer.getId()==null){
+    public void deleteCustomer(@RequestBody Customer customer) {
+        if (customer.getId() == null) {
             throw new RuntimeException("id can't be null!");
         }
         service.deleteCustomer(customer);
     }
+
 
 }
