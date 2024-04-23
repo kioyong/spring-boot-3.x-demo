@@ -15,8 +15,9 @@ import java.util.Enumeration;
 public class FeignProController {
 
     @GetMapping()
-    public Greeting greeting(HttpServletRequest request) {
+    public Greeting greeting(HttpServletRequest request) throws InterruptedException {
         LogUtils.info(log, "start call greeting in pro");
+        Thread.sleep(1000L);
         Greeting greeting = new Greeting("ABC", "Hello");
         LogUtils.info(log, "end call greeting in pro");
         return greeting;
